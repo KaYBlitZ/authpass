@@ -139,9 +139,10 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
         return null;
       })
     };
-    return Shortcuts(
-      manager: LoggingShortcutManager(),
-      shortcuts: shortcuts,
+    return Shortcuts.manager(
+      manager: LoggingShortcutManager(
+        shortcuts: shortcuts,
+      ),
       child: Provider<KeyboardShortcutEvents>.value(
         value: _keyboardShortcutEvents,
         child: Actions(
@@ -209,6 +210,11 @@ class IntentActionRegistration {
 
 /// A ShortcutManager that logs all keys that it handles.
 class LoggingShortcutManager extends ShortcutManager {
+  LoggingShortcutManager({
+    Map<ShortcutActivator, Intent> shortcuts =
+        const <ShortcutActivator, Intent>{},
+  }) : super(shortcuts: shortcuts);
+
   @override
   KeyEventResult handleKeypress(BuildContext context, RawKeyEvent event,
       {LogicalKeySet? keysPressed}) {
